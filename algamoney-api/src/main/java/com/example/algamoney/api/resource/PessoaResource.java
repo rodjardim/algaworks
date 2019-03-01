@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.algamoney.api.model.Pessoa;
 import com.example.algamoney.api.repository.PessoaRepository;
-import com.example.algamoney.service.PessoaService;
+import com.example.algamoney.api.service.PessoaService;
 
 import event.RecursoCriadoEvent;
 
@@ -74,5 +74,10 @@ public class PessoaResource {
 		return ResponseEntity.ok(pessoaSalva);
 	}
 	
+	@PutMapping("/{codigo}/ativo")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void atualizarPropriedadeAtivo(@PathVariable Long codigo,@RequestBody Boolean ativo) {
+		pessoaService.atualizarPropriedadeAtiva(codigo, ativo);
+	}
 	
 }

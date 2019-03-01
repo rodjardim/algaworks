@@ -1,4 +1,4 @@
-package com.example.algamoney.service;
+package com.example.algamoney.api.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,7 @@ public class PessoaService {
 	
 	
 	public Pessoa atualizar(Long codigo, Pessoa pessoa) {
-		Pessoa pessoaSalva = pessoaRepository.findOne(codigo);
-		
-		if(pessoaSalva == null) {
-			throw new EmptyResultDataAccessException(1);
-		}
+		Pessoa pessoaSalva = buscarPessoaPeloCodigo(codigo);
 		BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo");
 		
 		return pessoaRepository.save(pessoaSalva);
@@ -28,6 +24,22 @@ public class PessoaService {
 		
 		
 		
+	}
+	
+	public void atualizarPropriedadeAtiva(Long codigo, Boolean ativo) {
+		Pessoa pessoaSalva = buscarPessoaPeloCodigo(codigo);
+		pessoaSalva.setAtivo(ativo);
+		pessoaRepository.save(pessoaSalva);
+	}
+
+
+	public Pessoa buscarPessoaPeloCodigo(Long codigo) {
+		Pessoa pessoaSalva = pessoaRepository.findOne(codigo);
+		
+		if(pessoaSalva == null) {
+			throw new EmptyResultDataAccessException(1);
+		}
+		return pessoaSalva;
 	}
 
 }
